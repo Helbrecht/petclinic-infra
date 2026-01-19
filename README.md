@@ -24,6 +24,8 @@
 - Docker Desktop (или Docker)
 - PowerShell 7+ (или Git Bash)
 
+
+
 ## Развёртывание инфраструктуры
 
 1. **Создай кластер kind**
@@ -31,6 +33,17 @@
 ```powershell
 kind create cluster --name petclinic --config kind-config.yml
 kind export kubeconfig --name petclinic
+
+## Создай Kubernetes Secret в кластере
+kubectl create secret docker-registry ghcr-secret `
+  --docker-server=ghcr.io `
+  --docker-username=# твой GitHub логин `  
+  --docker-password=<твой_GHCR_TOKEN (PAT)> `  
+  --docker-email=your@email.com `
+  --namespace=petclinic
+
+Проверка
+kubectl get secret ghcr-secret -n petclinic -o yaml
 
 2. **Запусти скрипт установки**
 
